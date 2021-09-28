@@ -1,8 +1,8 @@
 /** **************************************************
- * Program Name: Week 5 Lab
+ * Program Name: Stocks
  * Programmer's Name: Ryan Jesky
- * Program Description: This program accepts input from users, calculates stock information, displays them,
- * allows to save to file, and can be populated from file
+ * Program description: This program uses a GUI to accept stock market input from users, calculates stock losses and profits,
+ * displays each stock in a JList, allows the user to save their stocks to a file, or upload previous stocks from a file.
  ********************************************************** */
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
