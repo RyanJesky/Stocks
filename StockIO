@@ -1,0 +1,86 @@
+/** **************************************************
+ * Program Name: Week 5 Lab
+ * Programmer's Name: Ryan Jesky
+ * Program Description: This program accepts input from users, calculates stock information, displays them,
+ * allows to save to file, and can be populated from file
+ ********************************************************** */
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
+
+public class StockIO{
+
+    String fileName;
+
+    //constructor sets filename
+    public StockIO() {
+        fileName = "Unknown";
+    }
+
+    //paramatized constructor
+    public StockIO(String fileName) {
+        this.fileName = fileName;
+    }
+
+    //getData method to read from file
+    public ArrayList<Stock> getData() throws FileNotFoundException, IOException {
+        //create array list for objects
+        ArrayList<Stock> stockList = new ArrayList<Stock>();
+
+        //read stock from file
+        BufferedReader inbuffer = new BufferedReader(new FileReader(fileName));
+        String inputString = "";
+        StringTokenizer tokens;
+        System.out.println("Reading from file.");
+
+        inputString = inbuffer.readLine();
+        while (inputString != null) {
+            System.out.println(inputString);
+
+            //break the line into tokens
+            tokens = new StringTokenizer(inputString, ",");
+
+            //companyName, quantity, purchasePrice, currentPrice
+            String companyName = tokens.nextToken();
+            double shares = Double.parseDouble(tokens.nextToken());
+            double purchasePrice = Double.parseDouble(tokens.nextToken());
+            double currentPrice = Double.parseDouble(tokens.nextToken());
+            System.out.println("Company name is: " + companyName);
+            System.out.println("Quantity is: " + shares);
+            System.out.println("Purchase price is: " + purchasePrice);
+            System.out.println("Current price is: " + currentPrice);
+
+            //create a stock object and add it to the arraylist
+            Stock stock = new Stock(companyName, shares, purchasePrice, currentPrice);
+            stockList.add(stock);
+
+            //read next line
+            inputString = inbuffer.readLine();
+        }
+        inbuffer.close();
+
+        //return arraylist
+        return stockList;
+    }
+
+    public void saveData(ArrayList<Stock> stockList) throws IOException {
+        //create file object
+        BufferedWriter outfile = new BufferedWriter(new FileWriter(/*"H:/ +*/fileName, false)); //false overwrites old file with new data/commented out my location of H drive
+
+        //write data to file object
+        for (Stock s : stockList) {
+            outfile.write(s.getCompanyName() + ","); //outfile each element
+            outfile.write(s.getShares() + ",");
+            outfile.write(s.getPurchasePrice() + ",");
+            outfile.write(s.getCurrentPrice() + "");
+            outfile.newLine(); //new line after each stock
+        }
+        outfile.close();
+    }
+}
